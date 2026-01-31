@@ -506,6 +506,30 @@ function hbjs(Module) {
         Module.stackRestore(sp);
         return extents;
       },
+      //_hb_ot_metrics_get_position
+      /**
+       * Tags: https://learn.microsoft.com/en-us/typography/opentype/spec/mvar#value-tags
+       * returns undefined if the value was not found.
+       * returns a numeric metric value otherwise
+       */
+      getPosition: function (metricsTag) {
+          var sp = Module.stackSave();
+          var positionPtr = Module.stackAlloc(4);
+          var hbMetricsTag = _hb_tag(metricsTag);
+          var found = exports.hb_ot_metrics_get_position(ptr, hbMetricsTag, positionPtr);
+          var result; // undefined by default
+          if (found) {
+            result = Module.HEAP32[positionPtr / 4];
+          }
+          Module.stackRestore(sp);
+          return result;
+      },
+      //_hb_ot_metrics_get_position_with_fallback
+      //_hb_ot_metrics_get_variation
+      //_hb_ot_metrics_get_x_variation
+      //_hb_ot_metrics_get_y_variation
+
+
       glyphName: glyphName,
       glyphToPath: glyphToPath,
       /**
